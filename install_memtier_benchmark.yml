@@ -1,0 +1,22 @@
+#cloud-config
+
+# Required packages
+packages:
+  - autoconf
+  - automake
+  - make
+  - gcc-c++
+  - pcre-devel
+  - zlib-devel
+  - libmemcached-devel
+  - libevent
+  - libevent-devel
+  - openssl-devel
+  - git
+
+# Commands to run
+runcmd:
+  - "git clone https://github.com/RedisLabs/memtier_benchmark && (cd memtier_benchmark; autoreconf -iv && ./configure && make install) && rm -rf memtier_benchmark"
+
+  
+
