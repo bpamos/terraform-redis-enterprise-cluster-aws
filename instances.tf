@@ -3,6 +3,55 @@
 # import user data
 data "template_file" "user_data" {
   template = file("${path.module}/install_memtier_benchmark.yml")
+
+
+  vars = {
+    aws_creds_access_key = var.aws_creds[0]
+    aws_creds_secret_key = var.aws_creds[1]
+    s3_bucket_name       = format("%s-s3-bucket-%s", var.base_name, random_string.s3_bucket_name.result)
+    dns_fdnq             = format("%s-%s.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+    node_1_private_ip    = aws_instance.rs_cluster_instance_1.private_ip
+    node_1_external_ip   = var.a_record_1
+    node_2_private_ip    = aws_instance.rs_cluster_instance_2.private_ip
+    node_2_external_ip   = var.a_record_2
+    node_3_private_ip    = aws_instance.rs_cluster_instance_3.private_ip
+    node_3_external_ip   = var.a_record_3
+    username             = var.re_cluster_username
+    password             = var.re_cluster_password
+    redis_db_name_1             = var.redis_db_name_1
+    redis_db_memory_size_1      = var.redis_db_memory_size_1
+    redis_db_replication_1      = var.redis_db_replication_1
+    redis_db_sharding_1         = var.redis_db_sharding_1
+    redis_db_shard_count_1      = var.redis_db_shard_count_1
+    redis_db_proxy_policy_1     = var.redis_db_proxy_policy_1
+    redis_db_shards_placement_1 = var.redis_db_shards_placement_1
+    redis_db_data_persistence_1 = var.redis_db_data_persistence_1
+    redis_db_aof_policy_1       = var.redis_db_aof_policy_1
+    redis_db_port               = var.redis_db_port
+    memtier_data_input_1        = var.memtier_data_input_1
+    memtier_benchmark_1         = var.memtier_benchmark_1
+    outfile_name_1              = var.outfile_name_1
+    # db 2
+    redis_db_name_2             = var.redis_db_name_2
+    redis_db_memory_size_2      = var.redis_db_memory_size_2
+    redis_db_replication_2      = var.redis_db_replication_2
+    redis_db_sharding_2         = var.redis_db_sharding_2
+    redis_db_shard_count_2      = var.redis_db_shard_count_2
+    redis_db_proxy_policy_2     = var.redis_db_proxy_policy_2
+    redis_db_shards_placement_2 = var.redis_db_shards_placement_2
+    redis_db_data_persistence_2 = var.redis_db_data_persistence_2
+    redis_db_aof_policy_2       = var.redis_db_aof_policy_2
+    redis_db_port_2             = var.redis_db_port_2
+    memtier_data_input_2        = var.memtier_data_input_2
+    memtier_benchmark_2         = var.memtier_benchmark_2
+    outfile_name_2              = var.outfile_name_2
+  }
+}
+
+resource "time_sleep" "wait" {
+  depends_on = [aws_instance.rs_cluster_instance_1,aws_instance.rs_cluster_instance_2,aws_instance.rs_cluster_instance_3]
+
+  create_duration = "4m"
 }
 
 resource "aws_instance" "memtier" {
@@ -15,8 +64,10 @@ resource "aws_instance" "memtier" {
   user_data                   = data.template_file.user_data.rendered
 
   tags = {
-    Name = var.memtier_instance_name
+    Name = format("%s-%s-memtier-node", var.base_name, var.region)
   }
+
+  depends_on = [time_sleep.wait]
 }
 
 
@@ -29,10 +80,8 @@ resource "aws_instance" "rs_cluster_instance_1" {
   instance_type               = var.rs_instance_type
   key_name                    = var.ssh_key_name
   vpc_security_group_ids      = [ aws_security_group.re_sg.id ]
-  #user_data                   = data.template_file.user_data.rendered
 
   tags = {
-    #Name = format("%s-%s", var.rs_instance_name_root, "1")
     Name = format("%s-%s-node1", var.base_name, var.region)
   }
 }
@@ -44,7 +93,6 @@ resource "aws_instance" "rs_cluster_instance_2" {
   instance_type               = var.rs_instance_type
   key_name                    = var.ssh_key_name
   vpc_security_group_ids      = [ aws_security_group.re_sg.id ]
-  #user_data                   = data.template_file.user_data.rendered
 
   tags = {
     Name = format("%s-%s-node2", var.base_name, var.region)
@@ -58,7 +106,6 @@ resource "aws_instance" "rs_cluster_instance_3" {
   instance_type               = var.rs_instance_type
   key_name                    = var.ssh_key_name
   vpc_security_group_ids      = [ aws_security_group.re_sg.id ]
-  #user_data                   = data.template_file.user_data.rendered
 
   tags = {
     Name = format("%s-%s-node3", var.base_name, var.region)

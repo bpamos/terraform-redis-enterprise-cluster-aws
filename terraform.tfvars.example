@@ -1,0 +1,97 @@
+# Access key and Secret key for aws account [AWS_ACCESS_KEY, AWS_SECRET_KEY] 
+aws_creds = ["",""]
+
+# ######################################## name of ssh key to be added to instance
+ssh_key_name = ""
+
+region = ""
+
+# ######################################## Base Name of Resources
+base_name = ""
+
+subnet_cidr_block = ""
+
+subnet_az = ""
+
+# ########################################  Memtier Instance
+
+# Linux ami to use
+linux_ami = ""
+
+# instance type to use. Default: t3.micro
+instance_type = ""
+
+# ########################################  redis enterpise software instance ami
+# you need to search aws marketplace, select the region, and grab ami id.
+# https://aws.amazon.com/marketplace/server/configuration?productId=412acaa0-2074-4156-93a4-576366bbf396&ref_=psb_cfg_continue
+rs_instance_ami = ""
+
+# redis enterprise software instance type
+rs_instance_type = ""
+
+# root!
+#rs_instance_name_root = ""
+
+# ########################################  Elastic IP
+# Use existing elastic Ips (make sure they are not associated with anything)
+rs_eip_1_id = ""
+
+rs_eip_2_id = ""
+
+rs_eip_3_id = ""
+
+
+# ########################################  DNS
+
+dns_hosted_zone_id = ""
+
+a_record_1 = ""
+
+a_record_2 = ""
+
+a_record_3 = ""
+
+# ########################################  cluster username and password
+
+re_cluster_username             = ""
+re_cluster_password             = ""
+
+# ########################################  memtier commands
+
+# first data input script into redis db.
+memtier_data_input_1 = "memtier_benchmark -x 3 -n 180000 -c 1 -t 1 --ratio=1:0 --data-size=80 --key-maximum=180000 --pipeline=1000 --key-pattern=S:S --hide-histogram"
+
+# first memtier benchmark
+memtier_benchmark_1 = "memtier_benchmark -x 2 -t 8 -c 100 -n 100 --ratio=1:10000 --data-size=80 --key-maximum=180000 --hide-histogram"
+
+outfile_name_1      = "mybenchmarkOutfile.json"
+
+# ########################################  create db 1
+
+# name of redis db
+redis_db_name_1      = "myDB"
+
+# memory size
+redis_db_memory_size_1 = 100000000
+
+# replication (true,false)
+redis_db_replication_1 = "true"
+
+# sharding and shard count (if sharding true, shard count > 1, if false shard count 1)
+redis_db_sharding_1  = "true"
+redis_db_shard_count_1 = 2
+
+# proxy policy (OPTIONS)
+redis_db_proxy_policy_1 = "single"
+
+# shard placement (OPTIONS)
+redis_db_shards_placement_1 = "dense"
+
+# data persistence (OPTIONS)
+redis_db_data_persistence_1 = "aof"
+
+# aof policy (OPTIONS)
+redis_db_aof_policy_1 = "appendfsync-always"
+
+# db port (create as random numbers)
+redis_db_port        = 10000
