@@ -49,7 +49,6 @@ terraform apply
 ```
 
 Go access your Redis Cluster from the FQDN.
-- https://MY_REDIS_CLUSTER.redisdemo.com:8443/
 - you can find the cluster FQDN and username and password in the outputs.
 ```bash
   RedisEnterpriseClusterFQDN     = "https://redisuser1-tf-us-east-1.redisdemo.com.redisdemo.com:8443/"
