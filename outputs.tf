@@ -23,3 +23,11 @@
 #     value = "ssh -i ~/.ssh/${var.ssh_key_name}.pem ${local.user}@${local.host} ${local.program}"
 #     description = "ssh string to execute memtier_benchmark on target ec2 instance"
 # }
+
+# locals {
+#     aws_eip = aws_eip.memtier.public_ip
+# }
+
+# output "aws_eip_memtier" {
+#     value = local.aws_eip
+# }

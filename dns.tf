@@ -19,7 +19,7 @@ resource "aws_route53_record" "A_record_1" {
   type    = "A"
   ttl     = "300"
   records = [
-            var.a_record_1
+            aws_eip.rs_cluster_instance_1.public_ip
             ]
 }
 
@@ -29,7 +29,7 @@ resource "aws_route53_record" "A_record_2" {
   type    = "A"
   ttl     = "300"
   records = [
-            var.a_record_2
+            aws_eip.rs_cluster_instance_2.public_ip
             ]
 }
 
@@ -39,8 +39,10 @@ resource "aws_route53_record" "A_record_3" {
   type    = "A"
   ttl     = "300"
   records = [
-            var.a_record_3
+            aws_eip.rs_cluster_instance_3.public_ip
             ]
+
+depends_on    = [aws_eip.rs_cluster_instance_1,aws_eip.rs_cluster_instance_2,aws_eip.rs_cluster_instance_3]
 }
 
 

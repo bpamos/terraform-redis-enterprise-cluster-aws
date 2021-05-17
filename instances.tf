@@ -11,11 +11,11 @@ data "template_file" "user_data" {
     s3_bucket_name       = format("%s-s3-bucket-%s", var.base_name, random_string.s3_bucket_name.result)
     dns_fdnq             = format("%s-%s.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
     node_1_private_ip    = aws_instance.rs_cluster_instance_1.private_ip
-    node_1_external_ip   = var.a_record_1
+    node_1_external_ip   = aws_eip.rs_cluster_instance_1.public_ip
     node_2_private_ip    = aws_instance.rs_cluster_instance_2.private_ip
-    node_2_external_ip   = var.a_record_2
+    node_2_external_ip   = aws_eip.rs_cluster_instance_2.public_ip
     node_3_private_ip    = aws_instance.rs_cluster_instance_3.private_ip
-    node_3_external_ip   = var.a_record_3
+    node_3_external_ip   = aws_eip.rs_cluster_instance_3.public_ip
     username             = var.re_cluster_username
     password             = var.re_cluster_password
     redis_db_name_1             = var.redis_db_name_1
@@ -31,20 +31,6 @@ data "template_file" "user_data" {
     memtier_data_input_1        = var.memtier_data_input_1
     memtier_benchmark_1         = var.memtier_benchmark_1
     outfile_name_1              = var.outfile_name_1
-    # db 2
-    redis_db_name_2             = var.redis_db_name_2
-    redis_db_memory_size_2      = var.redis_db_memory_size_2
-    redis_db_replication_2      = var.redis_db_replication_2
-    redis_db_sharding_2         = var.redis_db_sharding_2
-    redis_db_shard_count_2      = var.redis_db_shard_count_2
-    redis_db_proxy_policy_2     = var.redis_db_proxy_policy_2
-    redis_db_shards_placement_2 = var.redis_db_shards_placement_2
-    redis_db_data_persistence_2 = var.redis_db_data_persistence_2
-    redis_db_aof_policy_2       = var.redis_db_aof_policy_2
-    redis_db_port_2             = var.redis_db_port_2
-    memtier_data_input_2        = var.memtier_data_input_2
-    memtier_benchmark_2         = var.memtier_benchmark_2
-    outfile_name_2              = var.outfile_name_2
   }
 }
 
@@ -116,24 +102,21 @@ resource "aws_instance" "rs_cluster_instance_3" {
 
 resource "aws_eip_association" "rs-eip-assoc-1" {
   instance_id   = aws_instance.rs_cluster_instance_1.id
-  allocation_id = var.rs_eip_1_id
+  allocation_id = aws_eip.rs_cluster_instance_1.id
   depends_on    = [aws_instance.rs_cluster_instance_1]
 }
 
 resource "aws_eip_association" "rs-eip-assoc-2" {
   instance_id   = aws_instance.rs_cluster_instance_2.id
-  allocation_id = var.rs_eip_2_id
+  allocation_id = aws_eip.rs_cluster_instance_2.id
   depends_on    = [aws_instance.rs_cluster_instance_2]
 }
 
 resource "aws_eip_association" "rs-eip-assoc-3" {
   instance_id   = aws_instance.rs_cluster_instance_3.id
-  allocation_id = var.rs_eip_3_id
+  allocation_id = aws_eip.rs_cluster_instance_3.id
   depends_on    = [aws_instance.rs_cluster_instance_3]
 }
-
-
-
 
 
 ### ******************* OLD

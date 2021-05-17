@@ -40,17 +40,17 @@ variable "instance_type" {
 
 # ########################################  elastic Ips
 
-variable "rs_eip_1_id" {
-    description = "elastic ip id 1"
-}
+# variable "rs_eip_1_id" {
+#     description = "elastic ip id 1"
+# }
 
-variable "rs_eip_2_id" {
-    description = "elastic ip id 2"
-}
+# variable "rs_eip_2_id" {
+#     description = "elastic ip id 2"
+# }
 
-variable "rs_eip_3_id" {
-    description = "elastic ip id 3"
-}
+# variable "rs_eip_3_id" {
+#     description = "elastic ip id 3"
+# }
 
 # ######################################## Redis Enterprise Cluster Variables
 # ******************* redis enterpise software instance ami
@@ -70,18 +70,6 @@ variable "rs_instance_type" {
 
 variable "dns_hosted_zone_id" {
     description = "DNS hosted zone Id"
-}
-
-variable "a_record_1" {
-    description = "A record 1 Ip Address"
-}
-
-variable "a_record_2" {
-    description = "A record 2 Ip Address"
-}
-
-variable "a_record_3" {
-    description = "A record 3 Ip Address"
 }
 
 
@@ -112,21 +100,6 @@ variable "memtier_benchmark_1" {
 variable "outfile_name_1" {
     description = "outfile json name (1st run)"
     default = "mybenchmarkOutfile.json"
-}
-
-variable "memtier_data_input_2" {
-  description = "memtier data input (1st)"
-  default = "memtier_benchmark -x 3 -n 180000 -c 1 -t 1 --ratio=1:0 --data-size=80 --key-maximum=180000 --pipeline=1000 --key-pattern=S:S --hide-histogram"
-}
-
-variable "memtier_benchmark_2" {
-  description = "memtier benchmark code to run (1st)"
-  default = "memtier_benchmark -x 2 -t 8 -c 100 -n 100 --ratio=1:10000 --data-size=80 --key-maximum=180000 --hide-histogram"
-}
-
-variable "outfile_name_2" {
-    description = "outfile json name (1st run)"
-    default = "mybenchmarkOutfile2.json"
 }
 
 # ########################################  cluster db commands
@@ -177,58 +150,6 @@ variable "redis_db_aof_policy_1" {
 }
 
 variable "redis_db_port" {
-    description = "redis enterprise db "
-    default     = 10000
-}
-
-# ########################################  create db 2
-
-variable "redis_db_name_2" {
-    description = "redis enterprise db "
-    default     = "myDB2"
-}
-
-variable "redis_db_memory_size_2" {
-    description = "redis enterprise db "
-    default     = 100000000
-}
-
-variable "redis_db_replication_2" {
-    description = "redis enterprise db "
-    default     = "true"
-}
-
-variable "redis_db_sharding_2" {
-    description = "redis enterprise db "
-    default     = "false"
-}
-
-variable "redis_db_shard_count_2" {
-    description = "redis enterprise db "
-    default     = 1
-}
-
-variable "redis_db_proxy_policy_2" {
-    description = "redis enterprise db "
-    default     = "single"
-}
-
-variable "redis_db_shards_placement_2" {
-    description = "redis enterprise db "
-    default     = "dense"
-}
-
-variable "redis_db_data_persistence_2" {
-    description = "redis enterprise db "
-    default     = "aof"
-}
-
-variable "redis_db_aof_policy_2" {
-    description = "redis enterprise db "
-    default     = "appendfsync-always"
-}
-
-variable "redis_db_port_2" {
     description = "redis enterprise db "
     default     = 10000
 }
