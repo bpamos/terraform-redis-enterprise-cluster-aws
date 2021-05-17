@@ -32,24 +32,9 @@ rs_instance_type = ""
 # root!
 #rs_instance_name_root = ""
 
-# ########################################  Elastic IP
-# Use existing elastic Ips (make sure they are not associated with anything)
-rs_eip_1_id = ""
-
-rs_eip_2_id = ""
-
-rs_eip_3_id = ""
-
-
 # ########################################  DNS
 
 dns_hosted_zone_id = ""
-
-a_record_1 = ""
-
-a_record_2 = ""
-
-a_record_3 = ""
 
 # ########################################  cluster username and password
 
@@ -78,8 +63,8 @@ redis_db_memory_size_1 = 100000000
 redis_db_replication_1 = "true"
 
 # sharding and shard count (if sharding true, shard count > 1, if false shard count 1)
-redis_db_sharding_1  = "true"
-redis_db_shard_count_1 = 2
+redis_db_sharding_1  = "false"
+redis_db_shard_count_1 = 1
 
 # proxy policy (OPTIONS)
 redis_db_proxy_policy_1 = "single"
