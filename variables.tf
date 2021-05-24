@@ -38,20 +38,6 @@ variable "instance_type" {
     default = "t3.micro"
 }
 
-# ########################################  elastic Ips
-
-# variable "rs_eip_1_id" {
-#     description = "elastic ip id 1"
-# }
-
-# variable "rs_eip_2_id" {
-#     description = "elastic ip id 2"
-# }
-
-# variable "rs_eip_3_id" {
-#     description = "elastic ip id 3"
-# }
-
 # ######################################## Redis Enterprise Cluster Variables
 # ******************* redis enterpise software instance ami
 # you need to search aws marketplace, select the region, and grab ami id.
