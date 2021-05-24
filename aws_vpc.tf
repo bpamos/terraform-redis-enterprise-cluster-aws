@@ -1,15 +1,18 @@
+# Resource: aws_vpc (provides a VPC resource)
+# and associated resoruces for vpc.
+
 # Create a VPC
 resource "aws_vpc" "redis_cluster_vpc" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
-    #Name = var.vpc_name
     Name = format("%s-%s-cluster-vpc", var.base_name, var.region)
   }
 }
 
+# Create private subnet
 resource "aws_subnet" "re_subnet" {
-  vpc_id     = aws_vpc.redis_cluster_vpc.id
+  vpc_id     = aws_vpc.redis_cluster_vpc.id # requires the vpc id from the vpc resource
   cidr_block = var.subnet_cidr_block
   availability_zone = var.subnet_az
 
@@ -18,7 +21,8 @@ resource "aws_subnet" "re_subnet" {
   }
 }
 
-
+# network
+# Create Internet Gateway (enables your vpc to connect to the internet)
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.redis_cluster_vpc.id
   tags = {
@@ -26,6 +30,7 @@ resource "aws_internet_gateway" "igw" {
     }
 }
 
+# Create a custom route table (custom route table for the subnet. Subnet can reach the internet using this)
 resource "aws_default_route_table" "route_table" {
   default_route_table_id = aws_vpc.redis_cluster_vpc.default_route_table_id
   route {
@@ -37,13 +42,8 @@ resource "aws_default_route_table" "route_table" {
     }
 }
 
+# assocaite the route table to the subnet.
 resource "aws_route_table_association" "subnet_association" {
   subnet_id      = aws_subnet.re_subnet.id
   route_table_id = aws_default_route_table.route_table.id
 }
-
-## NOT REQUIRED
-# resource "aws_route_table_association" "b" {
-#   gateway_id     = aws_internet_gateway.igw.id
-#   route_table_id = aws_default_route_table.route_table.id
-# }

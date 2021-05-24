@@ -1,13 +1,9 @@
-###########################################################################
-# ******** DNS Record for Redis Cluster
+# ################ DNS Record for Redis Cluster
 
 # DNS record set from existing hosted zone
-# will need to use existing elastic ip variables as well.
-
-
+# uses aws_eip (elastic ips assocated with each RS instance)
 
 # # Get a Hosted Zone from its name and from this data how to create a Record Set
-
 data "aws_route53_zone" "selected" {
   zone_id = var.dns_hosted_zone_id
   private_zone = true
@@ -21,6 +17,7 @@ resource "aws_route53_record" "A_record_1" {
   records = [
             aws_eip.rs_cluster_instance_1.public_ip
             ]
+  depends_on    = [aws_eip.rs_cluster_instance_1,aws_eip.rs_cluster_instance_2,aws_eip.rs_cluster_instance_3]
 }
 
 resource "aws_route53_record" "A_record_2" {
@@ -31,6 +28,7 @@ resource "aws_route53_record" "A_record_2" {
   records = [
             aws_eip.rs_cluster_instance_2.public_ip
             ]
+  depends_on    = [aws_eip.rs_cluster_instance_1,aws_eip.rs_cluster_instance_2,aws_eip.rs_cluster_instance_3]
 }
 
 resource "aws_route53_record" "A_record_3" {
@@ -41,10 +39,11 @@ resource "aws_route53_record" "A_record_3" {
   records = [
             aws_eip.rs_cluster_instance_3.public_ip
             ]
-
-depends_on    = [aws_eip.rs_cluster_instance_1,aws_eip.rs_cluster_instance_2,aws_eip.rs_cluster_instance_3]
+  depends_on    = [aws_eip.rs_cluster_instance_1,aws_eip.rs_cluster_instance_2,aws_eip.rs_cluster_instance_3]
 }
 
+
+# create NS record. This script requies an existing R53 zone.
 
 resource "aws_route53_record" "NS_record" {
   zone_id = data.aws_route53_zone.selected.zone_id

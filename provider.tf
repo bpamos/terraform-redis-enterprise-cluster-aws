@@ -9,6 +9,7 @@ terraform {
 }
 
 # AWS region and AWS key pair
+# choose your provider (aws) and provide the region and aws creds.
 provider "aws" {
   region = var.region
   access_key = var.aws_creds[0]
