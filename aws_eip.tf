@@ -1,4 +1,3 @@
-
 # Resource: aws_eip (provides an elastic IP resource)
 # EIPs will be used as the IP addresses in your DNS 
 # and attached as the public IP address to each Redis Cluster EC2.

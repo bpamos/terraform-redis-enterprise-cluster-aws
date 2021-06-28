@@ -3,7 +3,8 @@
 # 1 memtier instance with a template file of variables for commands to run after instance creation.
 # 3 Redis Enterprise marketplace instances (with RS installed)
 
-# ############   Memtier Instance
+
+# Memtier Instance - Variable Configuration
 
 # import user data
 # template file can pass user data into instance.
@@ -43,9 +44,9 @@ data "template_file" "user_data" {
 }
 
 # Sleep resource, depends on all redis enterprise instances to be created.
-# after an instance is created, I want it to pass all of its checks, a sleep time of 4 minutes should allow this.
+# after an instance is created, it needs to pass all of its checks, a sleep time of 4 minutes should allow this.
 # otherwise the memtier instance will run commands and the instances may not be ready to respond
-# (There are better ways to do this)
+# TODO: do this without time_sleep command
 resource "time_sleep" "wait" {
   depends_on = [aws_instance.rs_cluster_instance_1,aws_instance.rs_cluster_instance_2,aws_instance.rs_cluster_instance_3]
 
@@ -70,7 +71,7 @@ resource "aws_instance" "memtier" {
 }
 
 
-# *********** Redis Enterprise Cluster Instances
+# Redis Enterprise Cluster Instances
 
 # create Redis Enterprise cluster instance (requires ami)
 resource "aws_instance" "rs_cluster_instance_1" {
@@ -112,7 +113,7 @@ resource "aws_instance" "rs_cluster_instance_3" {
   }
 }
 
-# ****************************     Elastic IP association
+# Elastic IP association
 
 # associate aws eips created in "aws_eip.tf" to each instance
 resource "aws_eip_association" "rs-eip-assoc-1" {

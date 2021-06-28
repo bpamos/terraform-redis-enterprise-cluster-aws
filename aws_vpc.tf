@@ -30,7 +30,8 @@ resource "aws_internet_gateway" "igw" {
     }
 }
 
-# Create a custom route table (custom route table for the subnet. Subnet can reach the internet using this)
+# Create a custom route table 
+# (custom route table for the subnet. Subnet can reach the internet using this)
 resource "aws_default_route_table" "route_table" {
   default_route_table_id = aws_vpc.redis_cluster_vpc.default_route_table_id
   route {
