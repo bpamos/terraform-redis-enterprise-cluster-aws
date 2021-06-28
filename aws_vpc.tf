@@ -1,5 +1,5 @@
 # Resource: aws_vpc (provides a VPC resource)
-# and associated resoruces for vpc.
+# and associated resources for vpc.
 
 # Create a VPC
 resource "aws_vpc" "redis_cluster_vpc" {
