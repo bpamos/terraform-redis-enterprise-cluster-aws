@@ -1,10 +1,19 @@
-# ********   Memtier Instance
+# Resource: aws_instance (provides aws instances)
+# Create your aws instances, 
+# 1 memtier instance with a template file of variables for commands to run after instance creation.
+# 3 Redis Enterprise marketplace instances (with RS installed)
+
+
+# Memtier Instance - Variable Configuration
 
 # import user data
+# template file can pass user data into instance.
+# here we provide various variables pulled from created resources and variables.tf 
+# to use inside the "install_memtier_bnechmark.yml" file
 data "template_file" "user_data" {
   template = file("${path.module}/install_memtier_benchmark.yml")
 
-
+  # variables used inside yml
   vars = {
     aws_creds_access_key = var.aws_creds[0]
     aws_creds_secret_key = var.aws_creds[1]
@@ -34,12 +43,17 @@ data "template_file" "user_data" {
   }
 }
 
+# Sleep resource, depends on all redis enterprise instances to be created.
+# after an instance is created, it needs to pass all of its checks, a sleep time of 4 minutes should allow this.
+# otherwise the memtier instance will run commands and the instances may not be ready to respond
+# TODO: do this without time_sleep command
 resource "time_sleep" "wait" {
   depends_on = [aws_instance.rs_cluster_instance_1,aws_instance.rs_cluster_instance_2,aws_instance.rs_cluster_instance_3]
 
   create_duration = "4m"
 }
 
+# create aws instance for memtier and rest api commands to create cluster.
 resource "aws_instance" "memtier" {
   ami                         = var.linux_ami
   subnet_id                   = aws_subnet.re_subnet.id
@@ -53,12 +67,13 @@ resource "aws_instance" "memtier" {
     Name = format("%s-%s-memtier-node", var.base_name, var.region)
   }
 
-  depends_on = [time_sleep.wait]
+  depends_on = [time_sleep.wait] # wait for rs instances to be created and checks passed.
 }
 
 
-# *********** Redis Enterprise Cluster Instances
+# Redis Enterprise Cluster Instances
 
+# create Redis Enterprise cluster instance (requires ami)
 resource "aws_instance" "rs_cluster_instance_1" {
   ami                         = var.rs_instance_ami
   associate_public_ip_address = true
@@ -98,8 +113,9 @@ resource "aws_instance" "rs_cluster_instance_3" {
   }
 }
 
-# ****************************     Elastic IP association
+# Elastic IP association
 
+# associate aws eips created in "aws_eip.tf" to each instance
 resource "aws_eip_association" "rs-eip-assoc-1" {
   instance_id   = aws_instance.rs_cluster_instance_1.id
   allocation_id = aws_eip.rs_cluster_instance_1.id
@@ -117,19 +133,3 @@ resource "aws_eip_association" "rs-eip-assoc-3" {
   allocation_id = aws_eip.rs_cluster_instance_3.id
   depends_on    = [aws_instance.rs_cluster_instance_3]
 }
-
-
-### ******************* OLD
-## I believe this could be used to create the eips and assocaite them (as opposed to using exisitng eips)
-# resource "aws_eip" "re-eip" {
-#   vpc   = true
-#   count = var.data-node-count
-#   tags  = merge({ Name = "${var.vpc-name}-node-eip-${count.index}" }, var.common-tags)
-# }
-
-# resource "aws_eip_association" "re-eip-assoc" {
-#   count         = var.data-node-count
-#   instance_id   = element(aws_instance.re.*.id, count.index)
-#   allocation_id = element(aws_eip.re-eip.*.id, count.index)
-#   depends_on    = [aws_instance.re, aws_eip.re-eip]
-# }

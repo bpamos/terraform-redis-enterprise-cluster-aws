@@ -1,4 +1,3 @@
-
 variable "region" {
     description = "AWS region"
     default = "us-east-1"
@@ -10,6 +9,11 @@ variable "aws_creds" {
 
 variable "ssh_key_name" {
     description = "name of ssh key to be added to instance"
+}
+
+# DNS
+variable "dns_hosted_zone_id" {
+    description = "DNS hosted zone Id"
 }
 
 variable "base_name" {
@@ -27,10 +31,11 @@ variable "subnet_az" {
     default = "us-east-1a"
 }
 
-# ######################################## Memtier Instance Variables
+# Memtier Instance Variables
 
 variable "linux_ami" {
     description = "Linux ami to use"
+    default = "ami-038f1ca1bd58a5790"
 }
 
 variable "instance_type" {
@@ -38,22 +43,8 @@ variable "instance_type" {
     default = "t3.micro"
 }
 
-# ########################################  elastic Ips
-
-# variable "rs_eip_1_id" {
-#     description = "elastic ip id 1"
-# }
-
-# variable "rs_eip_2_id" {
-#     description = "elastic ip id 2"
-# }
-
-# variable "rs_eip_3_id" {
-#     description = "elastic ip id 3"
-# }
-
-# ######################################## Redis Enterprise Cluster Variables
-# ******************* redis enterpise software instance ami
+# Redis Enterprise Cluster Variables
+# redis enterpise software instance ami
 # you need to search aws marketplace, select the region, and grab ami id.
 # https://aws.amazon.com/marketplace/server/configuration?productId=412acaa0-2074-4156-93a4-576366bbf396&ref_=psb_cfg_continue
 variable "rs_instance_ami" {
@@ -66,14 +57,7 @@ variable "rs_instance_type" {
     default     = "t2.xlarge"
 }
 
-# ######################################## DNS
-
-variable "dns_hosted_zone_id" {
-    description = "DNS hosted zone Id"
-}
-
-
-# ########################################  cluster commands
+# cluster commands
 
 variable "re_cluster_username" {
     description = "redis enterprise cluster username"
@@ -85,7 +69,7 @@ variable "re_cluster_password" {
     default     = "123456"
 }
 
-# ########################################  memtier commands
+# memtier commands
 
 variable "memtier_data_input_1" {
   description = "memtier data input (1st)"
@@ -102,7 +86,7 @@ variable "outfile_name_1" {
     default = "mybenchmarkOutfile.json"
 }
 
-# ########################################  cluster db commands
+# cluster db commands
 
 variable "redis_db_name_1" {
     description = "redis enterprise db "

@@ -1,4 +1,5 @@
-# *****************************    Security Group
+# Security Group
+# Security Group is for the EC2s.
 # TODO: Lock it down!
 
 resource "aws_security_group" "re_sg" {
@@ -40,6 +41,8 @@ resource "aws_security_group" "re_sg" {
     protocol = "tcp"
     from_port = 22
     to_port = 22
+    # cidr_block ["0.0.0.0/0"] This means all ip address are allowed to ssh
+    # do not do in production.
     cidr_blocks = [ "0.0.0.0/0" ]
   }
   ingress {
