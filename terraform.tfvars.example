@@ -48,7 +48,7 @@ dns_hosted_zone_id = ""
 # default = "t2.xlarge"
 ##rs_instance_type = ""
 
-# EBS volume for persistant and ephemeral storage
+# EBS volume for persistent and ephemeral storage
 # default = "150"
 ##rs-volume-size = ""
 
