@@ -57,6 +57,12 @@ variable "rs_instance_type" {
     default     = "t2.xlarge"
 }
 
+# EBS volume for persistant and ephemeral storage
+variable "rs-volume-size" {
+  description = "The size of the ephemeral and persistant volumes to attach"
+  default     = "150"
+}
+
 # cluster commands
 
 variable "re_cluster_username" {
