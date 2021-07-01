@@ -18,7 +18,7 @@ data "template_file" "user_data" {
     aws_creds_access_key = var.aws_creds[0]
     aws_creds_secret_key = var.aws_creds[1]
     s3_bucket_name       = format("%s-s3-bucket-%s", var.base_name, random_string.s3_bucket_name.result)
-    dns_fdnq             = format("%s-%s.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+    dns_fdnq             = format("%s-%s.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region)
     node_1_private_ip    = aws_instance.rs_cluster_instance_1.private_ip
     node_1_external_ip   = aws_eip.rs_cluster_instance_1.public_ip
     node_2_private_ip    = aws_instance.rs_cluster_instance_2.private_ip

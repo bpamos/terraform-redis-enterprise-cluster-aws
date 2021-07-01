@@ -4,15 +4,16 @@
 # uses aws_eip (elastic ips assocated with each RS instance)
 
 # Get a Hosted Zone from zone id
-data "aws_route53_zone" "selected" {
-  zone_id = var.dns_hosted_zone_id
-  private_zone = true
+
+resource "aws_route53_zone" "redis_hosted_zone" {
+  name = var.dns_hosted_zone_name
 }
+
 
 # create A records
 resource "aws_route53_record" "A_record_1" {
-  zone_id = data.aws_route53_zone.selected.zone_id
-  name    = format("%s-%s-node1.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+  zone_id = aws_route53_zone.redis_hosted_zone.zone_id
+  name    = format("%s-%s-node1.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region)
   type    = "A"
   ttl     = "300"
   records = [
@@ -22,8 +23,8 @@ resource "aws_route53_record" "A_record_1" {
 }
 
 resource "aws_route53_record" "A_record_2" {
-  zone_id = data.aws_route53_zone.selected.zone_id
-  name    = format("%s-%s-node2.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+  zone_id = aws_route53_zone.redis_hosted_zone.zone_id
+  name    = format("%s-%s-node2.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region)
   type    = "A"
   ttl     = "300"
   records = [
@@ -33,8 +34,8 @@ resource "aws_route53_record" "A_record_2" {
 }
 
 resource "aws_route53_record" "A_record_3" {
-  zone_id = data.aws_route53_zone.selected.zone_id
-  name    = format("%s-%s-node3.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+  zone_id = aws_route53_zone.redis_hosted_zone.zone_id
+  name    = format("%s-%s-node3.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region)
   type    = "A"
   ttl     = "300"
   records = [
@@ -45,13 +46,13 @@ resource "aws_route53_record" "A_record_3" {
 
 # create NS record. Requires an existing R53 zone.
 resource "aws_route53_record" "NS_record" {
-  zone_id = data.aws_route53_zone.selected.zone_id
-  name    = format("%s-%s.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+  zone_id = aws_route53_zone.redis_hosted_zone.zone_id
+  name    = format("%s-%s.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region)
   type    = "NS"
   ttl     = "300"
    records = [
-            format("%s-%s-node1.${data.aws_route53_zone.selected.name}", var.base_name, var.region),
-            format("%s-%s-node2.${data.aws_route53_zone.selected.name}", var.base_name, var.region),
-            format("%s-%s-node3.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+            format("%s-%s-node1.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region),
+            format("%s-%s-node2.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region),
+            format("%s-%s-node3.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region)
              ]         
 }

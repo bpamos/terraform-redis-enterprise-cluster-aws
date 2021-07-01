@@ -1,6 +1,6 @@
 
 locals {
-    fqdn = format("%s-%s.${data.aws_route53_zone.selected.name}", var.base_name, var.region)
+    fqdn = format("%s-%s.${aws_route53_zone.redis_hosted_zone.name}", var.base_name, var.region)
 }
 
 output "RedisEnterpriseClusterFQDN" {

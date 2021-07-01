@@ -12,8 +12,13 @@ variable "ssh_key_name" {
 }
 
 # DNS
-variable "dns_hosted_zone_id" {
-    description = "DNS hosted zone Id"
+# variable "dns_hosted_zone_id" {
+#     description = "DNS hosted zone Id"
+# }
+
+variable "dns_hosted_zone_name" {
+    description = "DNS hosted zone name"
+    default = "tfredis.com"
 }
 
 variable "base_name" {
