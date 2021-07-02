@@ -10,7 +10,8 @@ resource "aws_ebs_volume" "persistent_rs_cluster_instance_1" {
   size              = var.rs-volume-size
 
   tags = {
-    Name = format("%s-%s-ec2-1-persistent", var.base_name, var.region)
+    Name = format("%s-%s-ec2-1-persistent", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
@@ -26,7 +27,8 @@ resource "aws_ebs_volume" "persistent_rs_cluster_instance_2" {
   size              = var.rs-volume-size
 
   tags = {
-    Name = format("%s-%s-ec2-2-persistent", var.base_name, var.region)
+    Name = format("%s-%s-ec2-2-persistent", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
@@ -42,7 +44,8 @@ resource "aws_ebs_volume" "persistent_rs_cluster_instance_3" {
   size              = var.rs-volume-size
 
   tags = {
-    Name = format("%s-%s-ec2-3-persistent", var.base_name, var.region)
+    Name = format("%s-%s-ec2-3-persistent", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
@@ -59,7 +62,8 @@ resource "aws_ebs_volume" "ephemeral_rs_cluster_instance_1" {
   size              = var.rs-volume-size
 
   tags = {
-    Name = format("%s-%s-ec2-1-ephemeral", var.base_name, var.region)
+    Name = format("%s-%s-ec2-1-ephemeral", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
@@ -75,7 +79,8 @@ resource "aws_ebs_volume" "ephemeral_rs_cluster_instance_2" {
   size              = var.rs-volume-size
 
   tags = {
-    Name = format("%s-%s-ec2-2-ephemeral", var.base_name, var.region)
+    Name = format("%s-%s-ec2-2-ephemeral", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
@@ -91,7 +96,8 @@ resource "aws_ebs_volume" "ephemeral_rs_cluster_instance_3" {
   size              = var.rs-volume-size
 
   tags = {
-    Name = format("%s-%s-ec2-3-ephemeral", var.base_name, var.region)
+    Name = format("%s-%s-ec2-3-ephemeral", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 

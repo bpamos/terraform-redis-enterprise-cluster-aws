@@ -11,6 +11,10 @@ variable "ssh_key_name" {
     description = "name of ssh key to be added to instance"
 }
 
+variable "owner" {
+    description = "owner tag name"
+}
+
 # DNS
 variable "dns_hosted_zone_id" {
     description = "DNS hosted zone Id"

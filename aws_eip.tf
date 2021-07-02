@@ -7,7 +7,8 @@ resource "aws_eip" "rs_cluster_instance_1" {
   vpc      = false
 
   tags = {
-      Name = format("%s-%s-eip1", var.base_name, var.region)
+      Name = format("%s-%s-eip1", var.base_name, var.region),
+      Owner = var.owner
   }
 
 }
@@ -17,7 +18,8 @@ resource "aws_eip" "rs_cluster_instance_2" {
   vpc      = false
 
   tags = {
-      Name = format("%s-%s-eip2", var.base_name, var.region)
+      Name = format("%s-%s-eip2", var.base_name, var.region),
+      Owner = var.owner
   }
 
 }
@@ -27,7 +29,8 @@ resource "aws_eip" "rs_cluster_instance_3" {
   vpc      = false
 
   tags = {
-      Name = format("%s-%s-eip3", var.base_name, var.region)
+      Name = format("%s-%s-eip3", var.base_name, var.region),
+      Owner = var.owner
   }
 
 }

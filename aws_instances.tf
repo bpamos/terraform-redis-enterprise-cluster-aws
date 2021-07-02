@@ -64,7 +64,8 @@ resource "aws_instance" "memtier" {
   user_data                   = data.template_file.user_data.rendered
 
   tags = {
-    Name = format("%s-%s-memtier-node", var.base_name, var.region)
+    Name = format("%s-%s-memtier-node", var.base_name, var.region),
+    Owner = var.owner
   }
 
   depends_on = [time_sleep.wait] # wait for rs instances to be created and checks passed.
@@ -83,7 +84,8 @@ resource "aws_instance" "rs_cluster_instance_1" {
   vpc_security_group_ids      = [ aws_security_group.re_sg.id ]
 
   tags = {
-    Name = format("%s-%s-node1", var.base_name, var.region)
+    Name = format("%s-%s-node1", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
@@ -96,7 +98,8 @@ resource "aws_instance" "rs_cluster_instance_2" {
   vpc_security_group_ids      = [ aws_security_group.re_sg.id ]
 
   tags = {
-    Name = format("%s-%s-node2", var.base_name, var.region)
+    Name = format("%s-%s-node2", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
@@ -109,7 +112,8 @@ resource "aws_instance" "rs_cluster_instance_3" {
   vpc_security_group_ids      = [ aws_security_group.re_sg.id ]
 
   tags = {
-    Name = format("%s-%s-node3", var.base_name, var.region)
+    Name = format("%s-%s-node3", var.base_name, var.region),
+    Owner = var.owner
   }
 }
 
