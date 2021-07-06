@@ -13,6 +13,10 @@ ssh_key_name = ""
 # DNS hosted zone id (find value in R53 hosted zones)
 dns_hosted_zone_id = ""
 
+# Owner
+# Owner tag name of resources
+owner = ""
+
 # User Input Optional (Default values provided otherwise)
 # uncomment out variables and input values to overide defaults
 
